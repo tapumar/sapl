@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block base_content %}
+  <fieldset>
+    <legend>Pesquisa no LexML</legend>
+    <iframe src={{url}} marginwidth="0" marginheight="0" width="100%" height="500px" frameborder="0" title="Resultado da pesquisa no LexML">
+      <span>O endereço do link é: </span>
+      <a href="http://www.lexml.gov.br/">http://www.lexml.gov.br/</a>
+    </iframe>
+  </fieldset>
+{% endblock %}

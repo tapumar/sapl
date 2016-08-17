@@ -49,8 +49,9 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% static 'img/search.png' %}"><span class="caret"></span></a>
                   <ul class="dropdown-menu">
                     <li class="nav__sub-item">
-                      <form class="navbar-form search-form" method="get" action="http://sapl3.interlegis.leg.br/generico/lexml_pesquisar">
-                				<input type="text" class="form-control" placeholder="Pesquisar no LexML" />
+                      <form class="navbar-form search-form" method="post" action="{% url 'sapl.lexml:lexml-pesquisar' %}">
+                        {% csrf_token %}
+                				<input type="text" class="form-control" placeholder="Pesquisar no LexML" name="conteudo" />
                 			</form>
                     </li>
                   </ul>

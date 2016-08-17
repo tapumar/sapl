@@ -17,10 +17,10 @@ def get_writer(prefix, config={}):
 
 class OAIServer(object):
     """An OAI-2.0 compliant oai server.
-    
+
     Underlying code is based on pyoai's oaipmh.server'
     """
-    
+
     def __init__(self, sapl_tool, config={}):
         self.config = config
         self.sapl_tool = sapl_tool
@@ -63,7 +63,7 @@ class OAIServer(object):
             schema = writer.get_schema_location()
             result.append((prefix, schema, ns))
         return result
-    
+
     def listRecords(self, metadataPrefix, set=None, from_=None, until=None,
                     cursor=0, batch_size=10):
 
@@ -74,7 +74,7 @@ class OAIServer(object):
 
     def listIdentifiers(self, metadataPrefix, set=None, from_=None, until=None,
                         cursor=0, batch_size=10):
-        
+
         self._checkMetadataPrefix(metadataPrefix)
         for record in self._listQuery(set, from_, until, cursor, batch_size):
             yield self._createHeader(record)
@@ -106,8 +106,8 @@ class OAIServer(object):
         metadata = oaipmh.common.Metadata(record['metadata'])
         metadata.record = record
         return header, metadata
-    
-    def _listQuery(self, set=None, from_=None, until=None, 
+
+    def _listQuery(self, set=None, from_=None, until=None,
                    cursor=0, batch_size=10, identifier=None):
 
         if identifier:
@@ -116,13 +116,13 @@ class OAIServer(object):
             identifier = ''
         if set:
             set = self.get_internal_set_id(set)
-        
+
         # TODO: verificar se a data eh UTC
         now = datetime.now()
         if until != None and until > now:
             # until nunca deve ser no futuro
             until = now
-            
+
         return self.sapl_tool.oai_query(offset=cursor,
                                         batch_size=batch_size,
                                         from_date=from_,
@@ -137,7 +137,7 @@ def OAIServerFactory(sapl_tool, config={}):
     for prefix in config['metadata_prefixes']:
         metadata_registry = oaipmh.metadata.MetadataRegistry()
         metadata_registry.registerWriter(prefix, get_writer(prefix, config))
-            
+
     return oaipmh.server.BatchingServer(
         OAIServer(sapl_tool, config),
         metadata_registry=metadata_registry,
