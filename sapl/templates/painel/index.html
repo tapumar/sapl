@@ -163,137 +163,139 @@
     var aparte_previous;
 
     var counter = 1;
-    (function poll() {
-        $.ajax({
-           url: $("#json_url").val(),
-           type: "GET",
-           success: function(data) {
-              $("#sessao_plenaria").text(data["sessao_plenaria"])
-              $("#sessao_plenaria_data").text("Data Início: " + data["sessao_plenaria_data"])
-              $("#sessao_plenaria_hora_inicio").text("Hora Início: " + data["sessao_plenaria_hora_inicio"])
-              if (data["status_painel"] == false) {
-                $("#message").text("PAINEL ENCONTRA-SE FECHADO");
-              }
-              else {
-                $("#message").text("");
-              }
 
-              if (data["brasao"] != null)
-                $("#logo-painel").attr("src", data["brasao"]);
+    var sessao_pk = {{ sessao_id }};
+    var ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+    var painel_socket = new ReconnectingWebSocket(
+        ws_scheme + '://' + window.location.host + "painel-principal/" + sessao_pk);
 
-              var presentes = $("#parlamentares");
-              var votacao = $("#votacao");
-              $("#votacao").text('');
-              presentes.children().remove();
-              votacao.children().remove()
+    chatsock.onmessage = function(message) {
+        var data = JSON.parse(message.data);
+        atualizar_painel(data);
+    };
 
-              var presentes_list = data["presentes"];
+    function atualizar_painel(data) {
+        $("#sessao_plenaria").text(data["sessao_plenaria"])
+        $("#sessao_plenaria_data").text("Data Início: " + data["sessao_plenaria_data"])
+        $("#sessao_plenaria_hora_inicio").text("Hora Início: " + data["sessao_plenaria_hora_inicio"])
+        if (data["status_painel"] == false) {
+            $("#message").text("PAINEL ENCONTRA-SE FECHADO");
+        }
+        else {
+            $("#message").text("");
+        }
 
-              if (data["status_painel"] == true) {
-                  presentes.append('<table id="parlamentares_list">');
-                  jQuery.each(presentes_list, function (index, parlamentar) {
-                      $('#parlamentares_list').append('<tr> <td style="padding-right:20px">' +
-                          parlamentar.nome +
-                          '</td> <td style="padding-right:20px">' +
-                          parlamentar.partido + '</td> <td style="padding-right:20px">'
-                          + show_voto(parlamentar.voto) + '</td> </tr>')
-                  });
-                  presentes.append('</table>');
-              }
-              else{
-                  presentes.append('<span id="parlamentares_list">');
-                  $('#parlamentares_list').append(
-                      '<center>A listagem de parlamentares só aparecerá quando o painel estiver aberto.</center>')
-                  presentes.append('</span>');
-              }
+        if (data["brasao"] != null)
+            $("#logo-painel").attr("src", data["brasao"]);
 
-              if (data['materia_legislativa_texto']){
+        var presentes = $("#parlamentares");
+        var votacao = $("#votacao");
+        $("#votacao").text('');
+        presentes.children().remove();
+        votacao.children().remove()
 
-                //console.debug(presentes_ordem_dia)
-                var votacao = $("#votacao")
+        var presentes_list = data["presentes"];
 
-                var num_presentes = data["num_presentes"];
+        if (data["status_painel"] == true) {
+            presentes.append('<table id="parlamentares_list">');
+            jQuery.each(presentes_list, function (index, parlamentar) {
+                $('#parlamentares_list').append('<tr> <td style="padding-right:20px">' +
+                    parlamentar.nome +
+                    '</td> <td style="padding-right:20px">' +
+                    parlamentar.partido + '</td> <td style="padding-right:20px">'
+                    + show_voto(parlamentar.voto) + '</td> </tr>')
+            });
+            presentes.append('</table>');
+        }
+        else {
+            presentes.append('<span id="parlamentares_list">');
+            $('#parlamentares_list').append(
+                '<center>A listagem de parlamentares só aparecerá quando o painel estiver aberto.</center>')
+            presentes.append('</span>');
+        }
 
-                votacao.append("<li>Sim: " + data["numero_votos_sim"] + "</li>")
-                votacao.append("<li>Não: " + data["numero_votos_nao"] + "</li>")
-                votacao.append("<li>Abstenções: " + data["numero_abstencoes"] + "</li>")
-                votacao.append("<li>Presentes: " + num_presentes + "</li>")
-                votacao.append("<li>Total votos: " + data["total_votos"] + "</li>")
-              }
+        if (data['materia_legislativa_texto']) {
 
-              else{
-                $("#votacao").text('Não há votação, pois não há nenhuma matéria aberta ou já votada.');
-              }
+            //console.debug(presentes_ordem_dia)
+            var votacao = $("#votacao")
 
-              var discurso_current = data["cronometro_discurso"];
-              if (!discurso_previous){
-                discurso_previous = ''
-              }
+            var num_presentes = data["num_presentes"];
 
-              if (discurso_current != discurso_previous) {
-                $('#cronometro_discurso').runner(discurso_current);
-                discurso_previous = discurso_current;
-              }
+            votacao.append("<li>Sim: " + data["numero_votos_sim"] + "</li>")
+            votacao.append("<li>Não: " + data["numero_votos_nao"] + "</li>")
+            votacao.append("<li>Abstenções: " + data["numero_abstencoes"] + "</li>")
+            votacao.append("<li>Presentes: " + num_presentes + "</li>")
+            votacao.append("<li>Total votos: " + data["total_votos"] + "</li>")
+        }
 
-              var aparte_current = data["cronometro_aparte"];
-              if (!aparte_previous){
-                aparte_previous = ''
-              }
+        else {
+            $("#votacao").text('Não há votação, pois não há nenhuma matéria aberta ou já votada.');
+        }
 
-              if (aparte_current != aparte_previous) {
-                $('#cronometro_aparte').runner(aparte_current);
-                aparte_previous = aparte_current;
-              }
+        var discurso_current = data["cronometro_discurso"];
+        if (!discurso_previous) {
+            discurso_previous = ''
+        }
 
-              var ordem_current = data["cronometro_ordem"];
-              if (!ordem_previous){
-                ordem_previous = ''
-              }
+        if (discurso_current != discurso_previous) {
+            $('#cronometro_discurso').runner(discurso_current);
+            discurso_previous = discurso_current;
+        }
 
-              if (ordem_current != ordem_previous) {
-                $('#cronometro_ordem').runner(ordem_current);
-                ordem_previous = ordem_current;
-              }
+        var aparte_current = data["cronometro_aparte"];
+        if (!aparte_previous) {
+            aparte_previous = ''
+        }
 
-              if (data['materia_legislativa_texto']){
-                $("#materia_legislativa_texto").text(data["materia_legislativa_texto"]);
-              }
-              else{
-                $("#materia_legislativa_texto").text('Não há nehuma matéria votada ou para votação');
-              }
+        if (aparte_current != aparte_previous) {
+            $('#cronometro_aparte').runner(aparte_current);
+            aparte_previous = aparte_current;
+        }
 
-              if (data['observacao_materia']){
-                $("#observacao_materia").text(data["observacao_materia"]);
-              }
-              else{
-                $("#observacao_materia").text('');
-              }
+        var ordem_current = data["cronometro_ordem"];
+        if (!ordem_previous) {
+            ordem_previous = ''
+        }
 
-              if (data['resultado_votacao']){
-                $("#resultado_votacao").text(data["tipo_resultado"]);
-              }
-              else{
-                $("#resultado_votacao").text('');
-              }
-           },
-           error: function(err) {
-              console.error(err);
-           },
-           dataType: "json",
-           complete: setTimeout(function() {poll()}, 2000),
-           timeout: 20000 // TODO: decrease
-        })
-      })();
-     });
+        if (ordem_current != ordem_previous) {
+            $('#cronometro_ordem').runner(ordem_current);
+            ordem_previous = ordem_current;
+        }
 
-     function show_voto(voto) {
-      if (voto == "Sim"){
-          return '<font color="green"> Sim </font>'
-      }
-      else if (voto == "Não"){
-          return '<font color="red"> Não </font>'
-      }
-      return voto
-     }
+        if (data['materia_legislativa_texto']) {
+            $("#materia_legislativa_texto").text(data["materia_legislativa_texto"]);
+        }
+        else {
+            $("#materia_legislativa_texto").text('Não há nehuma matéria votada ou para votação');
+        }
+
+        if (data['observacao_materia']) {
+            $("#observacao_materia").text(data["observacao_materia"]);
+        }
+        else {
+            $("#observacao_materia").text('');
+        }
+
+        if (data['resultado_votacao']) {
+            $("#resultado_votacao").text(data["tipo_resultado"]);
+        }
+        else {
+            $("#resultado_votacao").text('');
+        }
+
+        error: function (err) {
+            console.error(err);
+        }
+    }
+
+   function show_voto(voto) {
+    if (voto == "Sim"){
+        return '<font color="green"> Sim </font>'
+    }
+    else if (voto == "Não"){
+        return '<font color="red"> Não </font>'
+    }
+    return voto
+   }
   </script>
 </html>
