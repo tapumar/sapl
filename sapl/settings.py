@@ -254,6 +254,7 @@ BOWER_INSTALLED_APPS = (
     'jsdiff#2.2.2',
     'https://github.com/interlegis/drunken-parrot-flat-ui.git',
     'jquery-query-object#2.2.3',
+    'https://github.com/joewalnes/reconnecting-websocket.git'
 )
 
 # Additional search paths for SASS files when using the @import statement

@@ -13,7 +13,8 @@
     <title>{% block head_title %}{% trans 'SAPL - Sistema de Apoio ao Processo Legislativo' %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="{% static 'jquery/dist/jquery.js' %}"></script>
-      <script type="text/javascript" src="{% static 'js/jquery.runner.js' %}"></script>
+    <script type="text/javascript" src="{% static 'reconnectingWebsocket/reconnecting-websocket.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.runner.js' %}"></script>
 
     <style type="text/css">
       @media screen {
@@ -109,67 +110,88 @@
      $(document).ready(function() {
          //TODO: replace by a fancy jQuery clock
          function checkTime(i) {
-             if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
-                return i;
+             if (i < 10) {
+                 i = "0" + i
+             }
+             ;  // add zero in front of numbers < 10
+             return i;
          }
+
          function startTime() {
-             var today=new Date();
-             var h=today.getHours();
-             var m=today.getMinutes();
-             var s=today.getSeconds();
+             var today = new Date();
+             var h = today.getHours();
+             var m = today.getMinutes();
+             var s = today.getSeconds();
              m = checkTime(m);
              s = checkTime(s);
-             $("#relogio").text(h+":"+m+":"+s)
-             var t = setTimeout(function(){
+             $("#relogio").text(h + ":" + m + ":" + s)
+             var t = setTimeout(function () {
                  startTime()
              }, 500);
          }
+
          startTime();
 
-        var audioAlertFinish = document.getElementById("audio");
+         var audioAlertFinish = document.getElementById("audio");
 
-        $('#cronometro_discurso').runner({
-          autostart: false,
-          countdown: true,
-          startAt: {{ 'discurso'|cronometro_to_seconds }} * 1000,
-          stopAt: 0,
-          milliseconds: false
-        }).on('runnerFinish', function(eventObject, info){
-          audioAlertFinish.play();
-        });
+         $('#cronometro_discurso').runner({
+                 autostart: false,
+                 countdown: true,
+                 startAt: {{ 'discurso'|cronometro_to_seconds }} * 1000,
+             stopAt
+         :
+         0,
+             milliseconds
+         :
+         false
+     }).
+         on('runnerFinish', function (eventObject, info) {
+             audioAlertFinish.play();
+         });
 
-        $('#cronometro_aparte').runner({
-          autostart: false,
-          countdown: true,
-          startAt:  {{ 'aparte'|cronometro_to_seconds }} * 1000,
-          stopAt: 0,
-          milliseconds: false
-        }).on('runnerFinish', function(eventObject, info){
-            audioAlertFinish.play();
-        });
+         $('#cronometro_aparte').runner({
+                 autostart: false,
+                 countdown: true,
+                 startAt:  {{ 'aparte'|cronometro_to_seconds }} * 1000,
+             stopAt
+         :
+         0,
+             milliseconds
+         :
+         false
+     }).
+         on('runnerFinish', function (eventObject, info) {
+             audioAlertFinish.play();
+         });
 
-        $('#cronometro_ordem').runner({
-          autostart: false,
-          countdown: true,
-          startAt:  {{ 'ordem'|cronometro_to_seconds }} * 1000,
-          stopAt: 0,
-          milliseconds: false
-        }).on('runnerFinish', function(eventObject, info){
-          audioAlertFinish.play();
-        });
+         $('#cronometro_ordem').runner({
+                 autostart: false,
+                 countdown: true,
+                 startAt:  {{ 'ordem'|cronometro_to_seconds }} * 1000,
+             stopAt
+         :
+         0,
+             milliseconds
+         :
+         false
+     }).
+         on('runnerFinish', function (eventObject, info) {
+             audioAlertFinish.play();
+         });
 
-    var discurso_previous;
-    var ordem_previous;
-    var aparte_previous;
+         var discurso_previous;
+         var ordem_previous;
+         var aparte_previous;
 
-    var counter = 1;
+         var counter = 1;
+     });
 
     var sessao_pk = {{ sessao_id }};
     var ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
     var painel_socket = new ReconnectingWebSocket(
-        ws_scheme + '://' + window.location.host + "painel-principal/" + sessao_pk);
+        ws_scheme + '://' + window.location.host + "/painel-principal/" + sessao_pk);
 
-    chatsock.onmessage = function(message) {
+    painel_socket.onmessage = function(message) {
         var data = JSON.parse(message.data);
         atualizar_painel(data);
     };
@@ -283,9 +305,9 @@
             $("#resultado_votacao").text('');
         }
 
-        error: function (err) {
-            console.error(err);
-        }
+        //error: function (err) {
+        //    console.error(err);
+        //}
     }
 
    function show_voto(voto) {
@@ -297,5 +319,6 @@
     }
     return voto
    }
+
   </script>
 </html>
