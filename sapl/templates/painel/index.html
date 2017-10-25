@@ -71,7 +71,7 @@
         </div>
 
         <div class="col-md-4" >
-          <h2><font color="#459170"><p align="center" style="font-family:Verdana">Cronômetros</p></font></h2>
+          <h2><font color="#459170"><p align="center" style="font-family:Verdana">Cronometro</p></font></h2>
           <table align="center">
             <tr>
               <th style="font-family:Verdana; text-align:center;"><font size="5" color="white">Discurso: <span id="cronometro_discurso"></span></font></th>
@@ -94,16 +94,58 @@
           </table>
         </div>
       </div>
+    </br>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h2><font color="#459170"><p align="center" style="font-family:Verdana">Matéria em Votação</p></font></h2>
+        <table style="width:75%; border:1px;" align="center">
+          <tr><th style="text-align:center"><h4><font color="white"><span id="materia_legislativa_texto"></span></font></th></tr>
+          <tr><th style="text-align:center"><h4><font color="white"><span id="observacao_materia"></span></font></th></tr>
+          <tr><th style="text-align:center"><font color="#45919D"><span id="resultado_votacao"></span></font></th></tr>
+        </table>
+      </div>
     </div>
 
-    </br>
-    <h2><font color="#459170"><p align="center" style="font-family:Verdana">Matéria em Votação</p></font></h2>
-    <table style="width:75%; border:1px;" align="center">
-      <tr><th style="text-align:center"><h4><font color="white"><span id="materia_legislativa_texto"></span></font></th></tr>
-      <tr><th style="text-align:center"><h4><font color="white"><span id="observacao_materia"></span></font></th></tr>
-      <tr><th style="text-align:center"><font color="#45919D"><span id="resultado_votacao"></span></font></th></tr>
-    </table>
-  </body>
+        <div class="col-md-12">
+          <h2><font color="#459170"><p align="center" style="font-family:Verdana">Operação do Painel Eletrônico</p></font></h2>
+        	<h2><span id="relogio"></span></h2>
+        	<br />
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <h3><font color="white"><p align="center" style="font-family:Verdana">Cronômetro do Discurso</p></font></h3>
+          </div>
+        </div>
+
+        <div class="row" style="width:200px; margin:0 auto;">
+          <div class="col-md-6"><button type="button" id="discursoStart" class="btn btn-success">Iniciar</button></div>
+          <div class="col-md-6"><button type="button" id="discursoReset" class="btn btn-success">Reiniciar</button></div>
+        </div>
+
+        <br/><br>
+        <div class="row">
+            <h3><font color="white"><p align="center" style="font-family:Verdana">Cronômetro do Aparte</p></font></h3>
+        </div>
+
+        <div class="row" style="width:200px; margin:0 auto;">
+          <div class="col-md-6"><button type="button" id="aparteStart" class="btn btn-success">Iniciar</button></div>
+          <div class="col-md-6"><button type="button" id="aparteReset" class="btn btn-success">Reiniciar</button></div>
+        </div>
+
+        <br/><br >
+        <div class="row">
+          <h3><font color="white"><p align="center" style="font-family:Verdana">Cronômetro de questão de ordem</p></font></h3>
+        </div>
+      </div>
+
+      <div class="row" style="width:200px; margin:0 auto;">
+        <div class="col-md-6"><button type="button" id="ordemStart" class="btn btn-success">Iniciar</button></div>
+        <div class="col-md-6"><button type="button" id="ordemReset" class="btn btn-success">Reiniciar</button></div>
+      </div>
+    </div>
+    <br/><br >
 
   <script type="text/javascript">
      $(document).ready(function() {
