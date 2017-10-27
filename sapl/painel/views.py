@@ -343,9 +343,8 @@ def get_materia_expediente_aberta(pk):
 
 
 def response_nenhuma_materia(response):
-    response.update({
+    return response.update({
         'msg_painel': str(_('Nenhuma matéria disponivel para votação.'))})
-    return JsonResponse(response)
 
 
 def get_votos(response, materia):
@@ -395,8 +394,7 @@ def get_votos(response, materia):
     return response
 
 
-@user_passes_test(check_permission)
-def get_dados_painel(request, pk):
+def get_dados(pk):
     sessao = SessaoPlenaria.objects.get(id=pk)
 
     casa = CasaLegislativa.objects.first()
@@ -412,9 +410,9 @@ def get_dados_painel(request, pk):
         'sessao_plenaria': str(sessao),
         'sessao_plenaria_data': sessao.data_inicio.strftime('%d/%m/%Y'),
         'sessao_plenaria_hora_inicio': sessao.hora_inicio,
-        'cronometro_aparte': get_cronometro_status(request, 'aparte'),
-        'cronometro_discurso': get_cronometro_status(request, 'discurso'),
-        'cronometro_ordem': get_cronometro_status(request, 'ordem'),
+        # 'cronometro_aparte': get_cronometro_status(request, 'aparte'),
+        # 'cronometro_discurso': get_cronometro_status(request, 'discurso'),
+        # 'cronometro_ordem': get_cronometro_status(request, 'ordem'),
         'status_painel': sessao.painel_aberto,
         'brasao': brasao
     }
@@ -425,13 +423,13 @@ def get_dados_painel(request, pk):
     # Caso tenha alguma matéria com votação aberta, ela é mostrada no painel
     # com prioridade para Ordem do Dia.
     if ordem_dia:
-        return JsonResponse(get_votos(
+        return get_votos(
             get_presentes(pk, response, ordem_dia),
-            ordem_dia))
+            ordem_dia)
     elif expediente:
-        return JsonResponse(get_votos(
+        return get_votos(
             get_presentes(pk, response, expediente),
-            expediente))
+            expediente)
 
     # Caso não tenha nenhuma aberta,
     # a matéria a ser mostrada no Painel deve ser a última votada
@@ -460,9 +458,12 @@ def get_dados_painel(request, pk):
         elif last_expediente_voto:
             materia = ultimo_expediente_votado
 
-        return JsonResponse(get_votos(
-                            get_presentes(pk, response, materia),
-                            materia))
+        return get_votos(get_presentes(pk, response, materia),
+                         materia)
 
     # Retorna que não há nenhuma matéria já votada ou aberta
     return response_nenhuma_materia(get_presentes(pk, response, None))
+
+
+def get_dados_painel(request, pk):
+    return JsonResponse(get_dados(pk))

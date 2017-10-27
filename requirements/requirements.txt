@@ -1,3 +1,5 @@
+asgi-redis==1.4.3
+channels==1.1.8
 dj-database-url==0.4.1
 django-haystack==2.6.0
 django>=1.9,<1.10
@@ -25,6 +27,7 @@ psycopg2==2.6.2
 python-decouple==3.0
 pytz==2016.4
 pyyaml==3.11
+redis==2.10.6
 rtyaml==0.0.3
 textract==1.5.0
 unipath==1.1

@@ -200,7 +200,7 @@
         $("#sessao_plenaria").text(data["sessao_plenaria"])
         $("#sessao_plenaria_data").text("Data Início: " + data["sessao_plenaria_data"])
         $("#sessao_plenaria_hora_inicio").text("Hora Início: " + data["sessao_plenaria_hora_inicio"])
-        if (data["status_painel"] == false) {
+        if (!data["status_painel"]) {
             $("#message").text("PAINEL ENCONTRA-SE FECHADO");
         }
         else {
@@ -254,35 +254,35 @@
             $("#votacao").text('Não há votação, pois não há nenhuma matéria aberta ou já votada.');
         }
 
-        var discurso_current = data["cronometro_discurso"];
-        if (!discurso_previous) {
-            discurso_previous = ''
-        }
-
-        if (discurso_current != discurso_previous) {
-            $('#cronometro_discurso').runner(discurso_current);
-            discurso_previous = discurso_current;
-        }
-
-        var aparte_current = data["cronometro_aparte"];
-        if (!aparte_previous) {
-            aparte_previous = ''
-        }
-
-        if (aparte_current != aparte_previous) {
-            $('#cronometro_aparte').runner(aparte_current);
-            aparte_previous = aparte_current;
-        }
-
-        var ordem_current = data["cronometro_ordem"];
-        if (!ordem_previous) {
-            ordem_previous = ''
-        }
-
-        if (ordem_current != ordem_previous) {
-            $('#cronometro_ordem').runner(ordem_current);
-            ordem_previous = ordem_current;
-        }
+{#        var discurso_current = data["cronometro_discurso"];#}
+{#        if (!discurso_previous) {#}
+{#            discurso_previous = ''#}
+{#        }#}
+{##}
+{#        if (discurso_current != discurso_previous) {#}
+{#            $('#cronometro_discurso').runner(discurso_current);#}
+{#            discurso_previous = discurso_current;#}
+{#        }#}
+{##}
+{#        var aparte_current = data["cronometro_aparte"];#}
+{#        if (!aparte_previous) {#}
+{#            aparte_previous = ''#}
+{#        }#}
+{##}
+{#        if (aparte_current != aparte_previous) {#}
+{#            $('#cronometro_aparte').runner(aparte_current);#}
+{#            aparte_previous = aparte_current;#}
+{#        }#}
+{##}
+{#        var ordem_current = data["cronometro_ordem"];#}
+{#        if (!ordem_previous) {#}
+{#            ordem_previous = ''#}
+{#        }#}
+{##}
+{#        if (ordem_current != ordem_previous) {#}
+{#            $('#cronometro_ordem').runner(ordem_current);#}
+{#            ordem_previous = ordem_current;#}
+{#        }#}
 
         if (data['materia_legislativa_texto']) {
             $("#materia_legislativa_texto").text(data["materia_legislativa_texto"]);

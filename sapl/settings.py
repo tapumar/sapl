@@ -13,6 +13,7 @@ Quick-start development settings - unsuitable for production
 See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 """
+import os
 import logging
 
 from decouple import config
@@ -74,6 +75,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # more
+    'channels',
     'django_extensions',
     'djangobower',
     'bootstrap3',  # basically for django_admin_bootstrapped
@@ -105,6 +107,16 @@ HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': SEARCH_BACKEND,
         SEARCH_URL[0]: SEARCH_URL[1]
+    },
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+        "ROUTING": "sapl.routing.channel_routing",
     },
 }
 
