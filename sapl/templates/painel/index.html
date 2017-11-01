@@ -191,6 +191,9 @@
     var painel_socket = new ReconnectingWebSocket(
         ws_scheme + '://' + window.location.host + "/painel-principal/" + sessao_pk);
 
+    // Função para lidar com mensagens do servidor.
+    // Quando chegar o signal de atualização de alguma tabela
+    // a qual o Painel é sensível.
     painel_socket.onmessage = function(message) {
         var data = JSON.parse(message.data);
         atualizar_painel(data);
