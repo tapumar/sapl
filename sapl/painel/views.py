@@ -343,8 +343,10 @@ def get_materia_expediente_aberta(pk):
 
 
 def response_nenhuma_materia(response):
-    return response.update({
+    response.update({
         'msg_painel': str(_('Nenhuma matéria disponivel para votação.'))})
+
+    return response
 
 
 def get_votos(response, materia):
