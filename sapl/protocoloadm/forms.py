@@ -502,7 +502,7 @@ class TramitacaoAdmEditForm(TramitacaoAdmForm):
         queryset=UnidadeTramitacao.objects.all(),
         widget=forms.HiddenInput())
 
-    data_tramitacao = forms.DateField(widget=forms.HiddenInput())
+    data_tramitacao = forms.DateTimeField(widget=forms.HiddenInput())
 
     class Meta:
         model = TramitacaoAdministrativo

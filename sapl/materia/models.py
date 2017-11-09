@@ -851,7 +851,7 @@ class Tramitacao(models.Model):
                                null=True,
                                verbose_name=_('Status'))
     materia = models.ForeignKey(MateriaLegislativa, on_delete=models.PROTECT)
-    data_tramitacao = models.DateField(verbose_name=_('Data Tramitação'))
+    data_tramitacao = models.DateTimeField(verbose_name=_('Data Tramitação'))
     unidade_tramitacao_local = models.ForeignKey(
         UnidadeTramitacao,
         related_name='tramitacoes_origem',
