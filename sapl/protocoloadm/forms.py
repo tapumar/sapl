@@ -470,7 +470,7 @@ class TramitacaoAdmForm(ModelForm):
                             'destino  da última adicionada!')
                     raise ValidationError(msg)
 
-            if self.cleaned_data['data_tramitacao'] > timezone.now().date():
+            if self.cleaned_data['data_tramitacao'] > timezone.now():
                 msg = _(
                     'A data de tramitação deve ser ' +
                     'menor ou igual a data de hoje!')

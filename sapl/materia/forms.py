@@ -215,7 +215,7 @@ class TramitacaoForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TramitacaoForm, self).__init__(*args, **kwargs)
-        self.fields['data_tramitacao'].initial = timezone.now().date()
+        self.fields['data_tramitacao'].initial = timezone.now()
 
     def clean(self):
         cleaned_data = super(TramitacaoForm, self).clean()
@@ -245,7 +245,7 @@ class TramitacaoForm(ModelForm):
                             'destino  da última adicionada!')
                     raise ValidationError(msg)
 
-            if cleaned_data['data_tramitacao'] > timezone.now().date():
+            if cleaned_data['data_tramitacao'] > timezone.now():
                 msg = _(
                     'A data de tramitação deve ser ' +
                     'menor ou igual a data de hoje!')
