@@ -36,3 +36,8 @@ Participacao:
   - data_designacao data_desligamento
   - motivo_desligamento
   - observacao
+
+ Reuniao:
+  {% trans 'Reunião' %}:
+  - periodo
+  - comissao
