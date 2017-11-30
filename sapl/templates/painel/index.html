@@ -286,9 +286,11 @@
                 var resultado_votacao_upper = $("#resultado_votacao").text().toUpperCase();
                   if (resultado_votacao_upper.search("APROV") != -1){
                     $("#resultado_votacao").css("color", "green");
+                    $("#resultado_votacao").text("Aprovada")
                   }
                   if (resultado_votacao_upper.search("REJEIT") != -1){
-                    $("#resultado_votacao").css("color", "red"); 
+                    $("#resultado_votacao").css("color", "red");
+                    $("#resultado_votacao").text("Rejeitada")
                   }
               }
               else{
