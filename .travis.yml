@@ -1,7 +1,10 @@
 language: python
 
 python:
-  - 3.4.3
+  - 3.5.4
+  - 3.6
+  allow_failures:
+    - python: 3.6
 
 services:
   - postgresql
@@ -21,7 +24,6 @@ script:
   - ./manage.py bower install
   - py.test --create-db
   # - ./test_and_check_qa.sh
-
 addons:
     hosts:
         - 127.0.0.1 sapldb
