@@ -35,7 +35,10 @@ class TextExtractField(CharField):
             self.model_attr = (self.model_attr, )
 
     def solr_extraction(self, arquivo):
-        extracted_data = self._get_backend(None).extract_file_contents(
+        assert hasattr(self, 'backend'), _(
+            'O backend não foi informado ao TextExtractField')
+
+        extracted_data = self.backend.extract_file_contents(
             arquivo)['contents']
         # Remove as tags xml
         extracted_data = re.sub('<[^>]*>', '', extracted_data)
@@ -144,6 +147,10 @@ class DocumentoAcessorioIndex(SearchIndex, Indexable):
             ('indexacao', 'string_extractor'),
         )
     )
+
+    def __init__(self):
+        super().__init__()
+        self.fields['text'].backend = self._get_backend(None)
 
     def get_model(self):
         return self.model
