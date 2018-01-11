@@ -10,7 +10,7 @@ from django.utils import formats, timezone
 from django.utils.translation import ugettext_lazy as _
 from model_utils import Choices
 
-from sapl.base.models import Autor
+from sapl.base.models import Autor, SEQUENCIA_NUMERACAO
 from sapl.comissoes.models import Comissao
 from sapl.compilacao.models import (PerfilEstruturalTextoArticulado,
                                     TextoArticulado)
@@ -87,6 +87,13 @@ class TipoMateriaLegislativa(models.Model):
             ('descricao', '__icontains'),
             ('sigla', '__icontains')
         ))
+
+    sequencia_numeracao = models.CharField(
+        max_length=1,
+        blank=True,
+        null=True,
+        verbose_name=_('Sequência de numeração'),
+        choices=SEQUENCIA_NUMERACAO)
 
     class Meta:
         verbose_name = _('Tipo de Matéria Legislativa')
