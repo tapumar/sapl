@@ -412,6 +412,7 @@ class ProtocoloMateriaView(PermissionRequiredMixin, CreateView):
             'pk': protocolo.pk})
 
     def form_valid(self, form):
+
         try:
             numeracao = sapl.base.models.AppConfig.objects.last(
             ).sequencia_numeracao
@@ -420,6 +421,12 @@ class ProtocoloMateriaView(PermissionRequiredMixin, CreateView):
                     'numeração na tabelas auxiliares!')
             messages.add_message(self.request, messages.ERROR, msg)
             return self.render_to_response(self.get_context_data())
+
+        # Se TipoMateriaLegislativa tem sequencia própria,
+        # então sobreescreve a sequência global
+        tipo = form.cleaned_data['tipo_materia']
+        if tipo.sequencia_numeracao:
+            numeracao = tipo.sequencia_numeracao
 
         if numeracao == 'A':
             numero = Protocolo.objects.filter(
