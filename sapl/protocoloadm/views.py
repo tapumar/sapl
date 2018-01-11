@@ -424,6 +424,13 @@ class ProtocoloMateriaView(PermissionRequiredMixin, CreateView):
         if numeracao == 'A':
             numero = Protocolo.objects.filter(
                 ano=timezone.now().year).aggregate(Max('numero'))
+        elif numeracao == 'L':
+            legislatura = Legislatura.objects.last()
+            data_inicio = legislatura.data_inicio
+            data_fim = legislatura.data_fim
+            numero = Protocolo.objects.filter(
+                data__gte=data_inicio, data__lte=data_fim).aggregate(
+                    Max('numero'))
         elif numeracao == 'U':
             numero = Protocolo.objects.all().aggregate(Max('numero'))
 
