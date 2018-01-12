@@ -1513,11 +1513,6 @@ class ConfirmarProposicaoForm(ProposicaoForm):
 
         if self.instance.tipo.content_type.model_class(
         ) == TipoMateriaLegislativa:
-            # numero__max = MateriaLegislativa.objects.filter(
-            #     tipo=proposicao.tipo.tipo_conteudo_related,
-            #     ano=timezone.now().year).aggregate(Max('numero'))
-            # numero__max = numero__max['numero__max']
-
 
             numeracao = None
             try:
