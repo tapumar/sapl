@@ -318,20 +318,6 @@ def recuperar_materia(request):
     return response
 
 
-    # param = {'tipo': tipo}
-    # param['data_apresentacao__year'] = ano if ano else timezone.now().year
-    #
-    # materia = MateriaLegislativa.objects.filter(**param).order_by(
-    #     'tipo', 'ano', 'numero').values_list('numero', 'ano').last()
-    # if materia:
-    #     response = JsonResponse({'numero': materia[0] + 1,
-    #                              'ano': materia[1]})
-    # else:
-    #     response = JsonResponse(
-    #         {'numero': 1, 'ano': ano if ano else timezone.now().year})
-
-
-
 OrgaoCrud = CrudAux.build(Orgao, 'orgao')
 StatusTramitacaoCrud = CrudAux.build(StatusTramitacao, 'status_tramitacao')
 
