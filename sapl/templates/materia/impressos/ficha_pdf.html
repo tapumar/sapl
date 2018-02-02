@@ -6,24 +6,21 @@
 
 <style type="text/css" media="all">
 
-body
-	{
+body {
 	font-size: small;
 	font-family: Arial;
 	line-height: 175%;
 	background-color: transparent;
 	margin: 5pt 5pt 0pt 0pt;
-	}
+}
 
-#voltar
-        {
-        position: absolute;
-        top: 50pt;
-        left: 500pt;
-        }
+#voltar {
+  position: absolute;
+  top: 50pt;
+  left: 500pt;
+}
 
-#ementa_texto
-	{
+#ementa_texto {
 	font-family: Arial;
 	line-height: 150%;
 	border-style: none;
@@ -32,27 +29,25 @@ body
 	margin-right:100px;
 	font-size: small;
 	height:130px;
-	}
+}
 
 
-#titulo
-    {
-    font-size: medium;
-    margin-right:100px;
-    text-align: center;
-    }
+#titulo {
+  font-size: medium;
+  margin-right:100px;
+  text-align: center;
+}
 
-#despacho_inicial
-	{
-     font-family: Arial;
-     line-height: 150%;
-     border-style: none;
-     text-align: justify;
-     font-size: small;
-     height:130px;
-     padding: 0pt 5pt 0pt 0pt;
-     margin-right:100px;
-    }
+#despacho_inicial {
+ font-family: Arial;
+ line-height: 150%;
+ border-style: none;
+ text-align: justify;
+ font-size: small;
+ height:130px;
+ padding: 0pt 5pt 0pt 0pt;
+ margin-right:100px;
+}
 
 @media print {
 	          #voltar { display: none; }
@@ -60,10 +55,11 @@ body
 
 </style>
 
-<body style="margin-left:80px;margin-right:80px; margin-top: -50px">
+<body style="margin-left:150px;margin-right:80px; margin-top: -50px">
 
 <div style="page-break-inside: avoid;">
 <justify>
+  <br>
     <div id="titulo">
       <!-- Informa o processo -->
       {% if materia.numeracao_set.first %}
@@ -107,7 +103,6 @@ body
     </table>
     <br>
 
-    <br>
     <table border=0>
        <td height="100pt">
 	     <div id="despacho_inicial">
