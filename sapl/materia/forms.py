@@ -1826,17 +1826,42 @@ class FichaSelecionaForm(forms.Form):
         queryset=MateriaLegislativa.objects.all(),
         label='')
 
+    margem_direita = forms.IntegerField(
+        label='Margem Direita',
+        required=False)
+
+    margem_esquerda = forms.IntegerField(
+        label='Margem Esquerda',
+        required=False)
+
+    margem_superior = forms.IntegerField(
+        label='Margem Superior',
+        required=False)
+
+
     def __init__(self, *args, **kwargs):
         super(FichaSelecionaForm, self).__init__(*args, **kwargs)
 
         row1 = to_row(
             [('materia', 12)])
 
+        row2 = to_row(
+            [('margem_direita', 4)])
+
+        row3 = to_row(
+            [('margem_esquerda', 4)])
+
+        row4 = to_row(
+            [('margem_superior', 4)])
+
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Fieldset(
                 ('Selecione a ficha que deseja imprimir'),
                 row1,
+                row2,
+                row3,
+                row4,
                 form_actions(label='Gerar Impresso')
             )
         )
